@@ -17,4 +17,6 @@ public interface UserControllerContract {
 
     boolean delete(String username,String phoneNumber);
     UserDTO getByUserName(String username);
+    UserDTO getByPhoneNumber(String phoneNumber);
+    UserDTO getByEmail(String email);
 }

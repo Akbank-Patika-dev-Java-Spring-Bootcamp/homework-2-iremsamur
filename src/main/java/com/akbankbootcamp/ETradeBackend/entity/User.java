@@ -3,11 +3,13 @@ package com.akbankbootcamp.ETradeBackend.entity;
 import com.akbankbootcamp.ETradeBackend.enums.EnumStatus;
 import com.akbankbootcamp.ETradeBackend.enums.EnumUserType;
 import com.akbankbootcamp.ETradeBackend.general.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -41,10 +43,6 @@ public class User extends BaseEntity {
     @Column(name = "BIRTH_DATE")
     private LocalDate birthDate;
 
-    /*
-        @OneToMany(mappedBy="user")
-        private Set<Comment> comments;
-         */
     @Column(name = "USER_TYPE", length = 50)
     @Enumerated(EnumType.STRING)
     private EnumUserType UserTYpe;
@@ -52,6 +50,10 @@ public class User extends BaseEntity {
     @Column(name = "STATUS", length = 30)
     @Enumerated(EnumType.STRING)
     private EnumStatus status;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    private List<Comment> comments;
     public Long getId() {
         return id;
     }
@@ -129,6 +131,12 @@ public class User extends BaseEntity {
 
     public void setUserTYpe(EnumUserType userTYpe) {
         UserTYpe = userTYpe;
+    }
+    public List<Comment> getComments() {
+        return comments;
+    }
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 
 }

@@ -2,10 +2,12 @@ package com.akbankbootcamp.ETradeBackend.entity;
 
 import com.akbankbootcamp.ETradeBackend.enums.EnumStatus;
 import com.akbankbootcamp.ETradeBackend.general.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -27,15 +29,13 @@ public class Product extends BaseEntity {
     @Column(name = "PRICE", length = 100, nullable = false)
     private Double price;
 
-    /*
-    @OneToMany(mappedBy="product")
-    private Set<Comment> comments;
-
-     */
-
     @Column(name = "STATUS", length = 30)
     @Enumerated(EnumType.STRING)
     private EnumStatus status;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<Comment> comments;
     public Long getId() {
         return id;
     }
@@ -74,6 +74,13 @@ public class Product extends BaseEntity {
 
     public void setStatus(EnumStatus status) {
         this.status = status;
+    }
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 
 

@@ -2,6 +2,7 @@ package com.akbankbootcamp.ETradeBackend.entity;
 
 import com.akbankbootcamp.ETradeBackend.enums.EnumStatus;
 import com.akbankbootcamp.ETradeBackend.general.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,25 +20,15 @@ public class Comment extends BaseEntity {
     private Long id;
     @Column(name = "COMMENT", length = 100, nullable = false)
     private String comment;
-
-    /*
-    @Column(name = "INDIVIDUAL_ID")
-    private Long userId;
-    @Column(name = "PRODUCT_ID")
-    private Long productId;
-
-     */
-
-
     @ManyToOne
     @JoinColumn(name = "PRODUCT_ID", nullable = false)
+    @JsonIgnoreProperties(value = { "comments" })
     private Product product;
 
     @ManyToOne
     @JoinColumn(name = "INDIVIDUAL_ID", nullable = false)
+    @JsonIgnoreProperties(value = { "comments" })
     private User user;
-
-
 
     @Column(name = "STATUS", length = 30)
     @Enumerated(EnumType.STRING)
@@ -77,6 +68,21 @@ public class Comment extends BaseEntity {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
 

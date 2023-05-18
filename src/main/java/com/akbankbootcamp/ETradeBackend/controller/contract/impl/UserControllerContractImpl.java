@@ -24,9 +24,16 @@ public class UserControllerContractImpl implements UserControllerContract {
 
     @Override
     public UserDTO add(UserSaveRequestDTO request) {
-        User user = UserMapper.INSTANCE.convertToUser(request);
-        user = userEntityService.save(user);
-        return UserMapper.INSTANCE.convertToUserDTO(user);
+        UserDTO userByUsername = getByUserName(request.getUsername());
+        UserDTO userByEmail = getByEmail(request.getEmail());
+        UserDTO userByPhoneNumber = getByPhoneNumber(request.getPhoneNumber());
+        if(userByUsername==null && userByEmail==null && userByPhoneNumber==null){
+            User user = UserMapper.INSTANCE.convertToUser(request);
+            user = userEntityService.save(user);
+            return UserMapper.INSTANCE.convertToUserDTO(user);
+        }
+        return new UserDTO();
+
     }
 
     @Override
@@ -59,10 +66,10 @@ public class UserControllerContractImpl implements UserControllerContract {
     @Override
     public boolean delete(String username, String phoneNumber) {
 
-        User userByUsername = userEntityService.getUserRepository().findByUsername(username);
+        UserDTO userByUsername = getByUserName(username);
         System.out.println(userByUsername.getId());
         System.out.println(userByUsername.getName());
-        User userByPhoneNumber = userEntityService.getUserRepository().findByPhoneNumber(phoneNumber);
+        UserDTO userByPhoneNumber = getByPhoneNumber(phoneNumber);
         if(userByUsername.getUsername()!=null && userByPhoneNumber.getPhoneNumber()!=null && userByUsername.getId()==userByPhoneNumber.getId() ){
             userEntityService.delete(userByUsername.getId());
             return true;
@@ -75,6 +82,19 @@ public class UserControllerContractImpl implements UserControllerContract {
 
     @Override
     public UserDTO getByUserName(String username) {
-        return null;
+        User userByUsername = userEntityService.getUserRepository().findByUsername(username);
+        return UserMapper.INSTANCE.convertToUserDTO(userByUsername);
+    }
+
+    @Override
+    public UserDTO getByPhoneNumber(String phoneNumber) {
+        User userByPhoneNumber = userEntityService.getUserRepository().findByPhoneNumber(phoneNumber);
+        return UserMapper.INSTANCE.convertToUserDTO(userByPhoneNumber);
+    }
+
+    @Override
+    public UserDTO getByEmail(String email) {
+        User userByMail = userEntityService.getUserRepository().findByEmail(email);
+        return UserMapper.INSTANCE.convertToUserDTO(userByMail);
     }
 }

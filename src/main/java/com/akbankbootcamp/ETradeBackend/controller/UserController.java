@@ -25,7 +25,13 @@ public class UserController {
     @PostMapping
     public ResponseEntity<RestResponse<UserDTO>> add(@RequestBody UserSaveRequestDTO userSaveRequest) {
         var userDTO = userControllerContract.add(userSaveRequest);
-        return ResponseEntity.ok(RestResponse.success(userDTO,"Kullanıcı başarıyla eklendi."));
+        if(userDTO.getId()!=null){
+            return ResponseEntity.ok(RestResponse.success(userDTO,"Kullanıcı başarıyla eklendi."));
+        }
+        else{
+            return ResponseEntity.ok(RestResponse.emptyError("Bu kullanıcı zaten kayıtlı bulunmaktadır."));
+        }
+
     }
     @PutMapping("/{id}")
     public ResponseEntity<RestResponse<UserDTO>> update(@RequestBody UserSaveRequestDTO userSaveRequestDTO,@PathVariable Long id) {
@@ -46,7 +52,7 @@ public class UserController {
             return ResponseEntity.ok(RestResponse.emptySuccess("Kullanıcı başarıyla silindi"));
         }
         else{
-            return ResponseEntity.ok(RestResponse.emptySuccess(username+ "kullanıcı adı ile"+phoneNumber+" telefon bilgileri uyuşmamaktadır."));
+            return ResponseEntity.ok(RestResponse.emptyError(username+ "kullanıcı adı ile"+phoneNumber+" telefon bilgileri uyuşmamaktadır."));
         }
 
     }

@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -40,6 +41,9 @@ public class RestResponse<T> implements Serializable {
     public static <T> RestResponse<T> of(T t){
         return new RestResponse<>(t, true);
     }
+    public static <T> RestResponse<List<T>> of(List<T> t){
+        return new RestResponse<>(t, true);
+    }
 
     public static <T> RestResponse<T> success(T t, String message){
         return new RestResponse<>(t, message,true);
@@ -52,6 +56,9 @@ public class RestResponse<T> implements Serializable {
         return new RestResponse<>(null, message,true);
     }
 
+    public static <T> RestResponse<T> emptyError(String message){
+        return new RestResponse<>(null, message,false);
+    }
     public static <T> RestResponse<T> error(T t){
         return new RestResponse<>(t, false);
     }
