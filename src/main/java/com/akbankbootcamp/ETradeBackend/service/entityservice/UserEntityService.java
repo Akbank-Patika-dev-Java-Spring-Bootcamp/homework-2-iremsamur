@@ -4,22 +4,30 @@ import com.akbankbootcamp.ETradeBackend.dao.UserRepository;
 import com.akbankbootcamp.ETradeBackend.entity.User;
 import com.akbankbootcamp.ETradeBackend.general.BaseEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+
+
+
 
 @Service
 public class UserEntityService extends BaseEntityService<User, UserRepository>{
-    private UserRepository userRepository;
+
+    private UserRepository repository;
 
     @Autowired
     public UserEntityService(UserRepository repository) {
         super(repository);
+        this.repository = repository;
     }
+
     public UserRepository getUserRepository() {
-        return userRepository;
+        return repository;
     }
 
     public void setUserRepository(UserRepository userRepository) {
-        this.userRepository = userRepository;
+        this.repository = userRepository;
     }
 
 

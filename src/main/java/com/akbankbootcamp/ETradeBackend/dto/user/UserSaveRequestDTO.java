@@ -1,6 +1,7 @@
 package com.akbankbootcamp.ETradeBackend.dto.user;
 
 import com.akbankbootcamp.ETradeBackend.enums.EnumStatus;
+import com.akbankbootcamp.ETradeBackend.enums.EnumUserType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,6 +18,7 @@ public class UserSaveRequestDTO {
     private String phoneNumber;
     private LocalDate birthDate;
     private EnumStatus status;
+    private EnumUserType UserType;
 
     public String getName() {
         return name;
@@ -80,5 +82,12 @@ public class UserSaveRequestDTO {
 
     public void setStatus(EnumStatus status) {
         this.status = status;
+    }
+    public EnumUserType getUserType() {
+        return UserType;
+    }
+
+    public void setUserType(EnumUserType userType) {
+        UserType = userType;
     }
 }

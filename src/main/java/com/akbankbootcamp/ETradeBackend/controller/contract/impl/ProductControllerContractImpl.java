@@ -8,6 +8,7 @@ import com.akbankbootcamp.ETradeBackend.mapper.ProductMapper;
 import com.akbankbootcamp.ETradeBackend.service.entityservice.ProductEntityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -26,8 +26,8 @@ public class ProductController {
     }
     @PutMapping("/{id}")
     public ResponseEntity<RestResponse<ProductDTO>> update(@RequestBody Double price,@PathVariable Long id) {
-        var customerDTO = productControllerContract.update(price,id);
-        return ResponseEntity.ok(RestResponse.success(customerDTO,"Ürün başarıyla güncellendi"));
+        var productDTO = productControllerContract.update(price,id);
+        return ResponseEntity.ok(RestResponse.success(productDTO,"Ürün başarıyla güncellendi"));
     }
 
     @GetMapping

@@ -9,6 +9,7 @@ import com.akbankbootcamp.ETradeBackend.general.BusinessException;
 import com.akbankbootcamp.ETradeBackend.mapper.UserMapper;
 import com.akbankbootcamp.ETradeBackend.service.entityservice.UserEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -59,8 +60,10 @@ public class UserControllerContractImpl implements UserControllerContract {
     public boolean delete(String username, String phoneNumber) {
 
         User userByUsername = userEntityService.getUserRepository().findByUsername(username);
+        System.out.println(userByUsername.getId());
+        System.out.println(userByUsername.getName());
         User userByPhoneNumber = userEntityService.getUserRepository().findByPhoneNumber(phoneNumber);
-        if(userByUsername.getId() == userByPhoneNumber.getId()){
+        if(userByUsername.getUsername()!=null && userByPhoneNumber.getPhoneNumber()!=null && userByUsername.getId()==userByPhoneNumber.getId() ){
             userEntityService.delete(userByUsername.getId());
             return true;
         }

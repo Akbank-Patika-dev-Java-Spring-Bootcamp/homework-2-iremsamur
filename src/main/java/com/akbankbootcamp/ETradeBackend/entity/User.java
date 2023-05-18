@@ -1,6 +1,7 @@
 package com.akbankbootcamp.ETradeBackend.entity;
 
 import com.akbankbootcamp.ETradeBackend.enums.EnumStatus;
+import com.akbankbootcamp.ETradeBackend.enums.EnumUserType;
 import com.akbankbootcamp.ETradeBackend.general.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -40,12 +41,13 @@ public class User extends BaseEntity {
     @Column(name = "BIRTH_DATE")
     private LocalDate birthDate;
 
-
     /*
-    @OneToMany(mappedBy="user")
-    private Set<Comment> comments;
-
-     */
+        @OneToMany(mappedBy="user")
+        private Set<Comment> comments;
+         */
+    @Column(name = "USER_TYPE", length = 50)
+    @Enumerated(EnumType.STRING)
+    private EnumUserType UserTYpe;
 
     @Column(name = "STATUS", length = 30)
     @Enumerated(EnumType.STRING)
@@ -120,6 +122,13 @@ public class User extends BaseEntity {
 
     public void setStatus(EnumStatus status) {
         this.status = status;
+    }
+    public EnumUserType getUserTYpe() {
+        return UserTYpe;
+    }
+
+    public void setUserTYpe(EnumUserType userTYpe) {
+        UserTYpe = userTYpe;
     }
 
 }
