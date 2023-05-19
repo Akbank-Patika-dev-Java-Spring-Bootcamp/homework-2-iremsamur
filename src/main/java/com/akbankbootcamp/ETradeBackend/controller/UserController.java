@@ -7,6 +7,7 @@ import com.akbankbootcamp.ETradeBackend.dto.product.ProductSaveRequestDTO;
 import com.akbankbootcamp.ETradeBackend.dto.user.UserDTO;
 import com.akbankbootcamp.ETradeBackend.dto.user.UserSaveRequestDTO;
 import com.akbankbootcamp.ETradeBackend.general.RestResponse;
+import com.akbankbootcamp.ETradeBackend.general.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,12 +25,11 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<RestResponse<UserDTO>> add(@RequestBody UserSaveRequestDTO userSaveRequest) {
-        var userDTO = userControllerContract.add(userSaveRequest);
-        if(userDTO.getId()!=null){
+        try {
+            var userDTO = userControllerContract.add(userSaveRequest);
             return ResponseEntity.ok(RestResponse.success(userDTO,"Kullanıcı başarıyla eklendi."));
-        }
-        else{
-            return ResponseEntity.ok(RestResponse.emptyError("Bu kullanıcı zaten kayıtlı bulunmaktadır."));
+        } catch (BusinessException ex) {
+            return ResponseEntity.ok(RestResponse.emptyError(ex.getMessage()));
         }
 
     }
@@ -47,12 +47,11 @@ public class UserController {
 
     @DeleteMapping("/{username}")
     public ResponseEntity<RestResponse<Object>> delete(@PathVariable String username,@RequestBody String phoneNumber) {
-        boolean checkDeleteStatus = userControllerContract.delete(username,phoneNumber);
-        if(checkDeleteStatus){
+        try {
+            userControllerContract.delete(username,phoneNumber);
             return ResponseEntity.ok(RestResponse.emptySuccess("Kullanıcı başarıyla silindi"));
-        }
-        else{
-            return ResponseEntity.ok(RestResponse.emptyError(username+ "kullanıcı adı ile"+phoneNumber+" telefon bilgileri uyuşmamaktadır."));
+        } catch (BusinessException ex) {
+            return ResponseEntity.ok(RestResponse.emptyError(ex.getMessage()));
         }
 
     }

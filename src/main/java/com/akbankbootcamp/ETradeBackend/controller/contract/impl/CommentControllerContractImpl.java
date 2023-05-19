@@ -10,6 +10,7 @@ import com.akbankbootcamp.ETradeBackend.dto.user.UserDTO;
 import com.akbankbootcamp.ETradeBackend.entity.Comment;
 import com.akbankbootcamp.ETradeBackend.entity.Product;
 import com.akbankbootcamp.ETradeBackend.entity.User;
+import com.akbankbootcamp.ETradeBackend.general.exception.BusinessException;
 import com.akbankbootcamp.ETradeBackend.mapper.CommentMapper;
 import com.akbankbootcamp.ETradeBackend.mapper.ProductMapper;
 import com.akbankbootcamp.ETradeBackend.mapper.UserMapper;
@@ -87,7 +88,7 @@ public class CommentControllerContractImpl implements CommentControllerContract 
         List<CommentByUserDTO> commentByUserListDTO = new ArrayList<CommentByUserDTO>();
         List<Comment> commentsByUser = commentEntityService.getRepository().findAllByUserId(userId);
         if(commentsByUser == null){
-            return commentByUserListDTO;
+            throw new BusinessException(" kullanıcısı henüz bir yorum yazmamıştır!!");
         }
         else{
             for (Comment comment : commentsByUser) {
@@ -113,7 +114,7 @@ public class CommentControllerContractImpl implements CommentControllerContract 
         List<CommentByProductDTO> commentByProductListDTO = new ArrayList<CommentByProductDTO>();
         List<Comment> commentsForProduct = commentEntityService.getRepository().findAllByProductId(productId);
         if(commentsForProduct == null){
-            return commentByProductListDTO;
+            throw new BusinessException(" ürününe ait yapılmış bir yorum bulunmamaktadır!!");
         }
         else{
             for (Comment comment : commentsForProduct) {

@@ -8,6 +8,7 @@ import com.akbankbootcamp.ETradeBackend.dto.comment.CommentByUserDTO;
 import com.akbankbootcamp.ETradeBackend.dto.comment.CommentDTO;
 import com.akbankbootcamp.ETradeBackend.dto.comment.CommentSaveRequestDTO;
 import com.akbankbootcamp.ETradeBackend.general.RestResponse;
+import com.akbankbootcamp.ETradeBackend.general.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -67,25 +68,25 @@ public class CommentController {
     //kullanıcıya göre o kullanıcının yaptığı yorumları getirir
     @GetMapping("/getByUser/{id}")
     public ResponseEntity<RestResponse<List<CommentByUserDTO>>> findByUserId(@PathVariable Long id) {
-        var commentDTO = commentControllerContract.findAllByUserId(id);
         var userDTO = commentControllerContract.findUserById(id);
-        if(commentDTO != null){
+        try {
+            var commentDTO = commentControllerContract.findAllByUserId(id);
             return ResponseEntity.ok(RestResponse.of(commentDTO));
+        } catch (BusinessException ex) {
+            return ResponseEntity.ok(RestResponse.emptyError(userDTO.getName()+" "+userDTO.getSurname()+ex.getMessage()));
         }
-        return ResponseEntity.ok(RestResponse.emptyError(userDTO.getName()+" "+userDTO.getSurname()+" kullanıcısı" +
-                "henüz bir yorum yapmamıştır."));
 
     }
     //ürüne göre o ürüne yapılmış yorumları getirir
     @GetMapping("/getByProduct/{id}")
     public ResponseEntity<RestResponse<List<CommentByProductDTO>>> findByProductId(@PathVariable Long id) {
-        var commentDTO = commentControllerContract.findAllByProductId(id);
         var productDTO = commentControllerContract.findProductById(id);
-        if(commentDTO!=null){
+        try {
+            var commentDTO = commentControllerContract.findAllByProductId(id);
             return ResponseEntity.ok(RestResponse.of(commentDTO));
+        } catch (BusinessException ex) {
+            return ResponseEntity.ok(RestResponse.emptyError(productDTO.getName()+ex.getMessage()));
         }
-        return ResponseEntity.ok(RestResponse.emptyError(productDTO.getName()+" ürününe ait henüz yapılmış bir yorum" +
-                "bulunmamaktadır. "));
 
     }
 

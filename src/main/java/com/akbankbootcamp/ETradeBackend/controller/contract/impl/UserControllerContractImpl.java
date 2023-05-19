@@ -1,15 +1,13 @@
 package com.akbankbootcamp.ETradeBackend.controller.contract.impl;
 
 import com.akbankbootcamp.ETradeBackend.controller.contract.UserControllerContract;
-import com.akbankbootcamp.ETradeBackend.dao.UserRepository;
 import com.akbankbootcamp.ETradeBackend.dto.user.UserDTO;
 import com.akbankbootcamp.ETradeBackend.dto.user.UserSaveRequestDTO;
 import com.akbankbootcamp.ETradeBackend.entity.User;
-import com.akbankbootcamp.ETradeBackend.general.BusinessException;
+import com.akbankbootcamp.ETradeBackend.general.exception.BusinessException;
 import com.akbankbootcamp.ETradeBackend.mapper.UserMapper;
 import com.akbankbootcamp.ETradeBackend.service.entityservice.UserEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,7 +30,7 @@ public class UserControllerContractImpl implements UserControllerContract {
             user = userEntityService.save(user);
             return UserMapper.INSTANCE.convertToUserDTO(user);
         }
-        return new UserDTO();
+        throw new BusinessException("Daha önce kayıtlı olan kullanıcı adı, telefon numarası ve mail adresi tekrar kullanılamaz!!");
 
     }
 
@@ -64,7 +62,7 @@ public class UserControllerContractImpl implements UserControllerContract {
     }
 
     @Override
-    public boolean delete(String username, String phoneNumber) {
+    public void delete(String username, String phoneNumber) {
 
         UserDTO userByUsername = getByUserName(username);
         System.out.println(userByUsername.getId());
@@ -72,10 +70,9 @@ public class UserControllerContractImpl implements UserControllerContract {
         UserDTO userByPhoneNumber = getByPhoneNumber(phoneNumber);
         if(userByUsername.getUsername()!=null && userByPhoneNumber.getPhoneNumber()!=null && userByUsername.getId()==userByPhoneNumber.getId() ){
             userEntityService.delete(userByUsername.getId());
-            return true;
         }
         else{
-            return false;
+            throw new BusinessException("Silme işlemi için kullanıcının doğru telefon ve kullanıcı adı bilgileri girilmelidir!!");
         }
 
     }

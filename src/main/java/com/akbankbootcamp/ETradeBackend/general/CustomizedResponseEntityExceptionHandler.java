@@ -1,5 +1,6 @@
 package com.akbankbootcamp.ETradeBackend.general;
 
+import com.akbankbootcamp.ETradeBackend.general.exception.BusinessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.TransactionSystemException;
@@ -41,7 +42,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
     @ExceptionHandler
     public final ResponseEntity<Object> handleAllExceptions(BusinessException e, WebRequest webRequest) {
 
-        String message = e.getBaseErrorMessage().getMessage();
+        String message = e.getMessage();
         String description = webRequest.getDescription(false);
 
         var genericErrorMessage = new GenericErrorMessage(LocalDateTime.now(), message, description);

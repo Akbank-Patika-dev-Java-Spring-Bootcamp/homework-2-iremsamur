@@ -15,7 +15,7 @@ public interface UserControllerContract {
     List<UserDTO> findAll();
     UserDTO getById(Long id);
 
-    boolean delete(String username,String phoneNumber);
+    void delete(String username,String phoneNumber);
     UserDTO getByUserName(String username);
     UserDTO getByPhoneNumber(String phoneNumber);
     UserDTO getByEmail(String email);
