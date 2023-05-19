@@ -25,8 +25,8 @@ public class ProductController {
         return ResponseEntity.ok(RestResponse.success(productDTO,"Ürün başarıyla eklendi."));
     }
     @PutMapping("/{id}")
-    public ResponseEntity<RestResponse<ProductDTO>> update(@RequestBody Double price,@PathVariable Long id) {
-        var productDTO = productControllerContract.update(price,id);
+    public ResponseEntity<RestResponse<ProductDTO>> update(@RequestBody String price,@PathVariable Long id) {
+        var productDTO = productControllerContract.update(Double.parseDouble(price),id);
         return ResponseEntity.ok(RestResponse.success(productDTO,"Ürün başarıyla güncellendi"));
     }
 

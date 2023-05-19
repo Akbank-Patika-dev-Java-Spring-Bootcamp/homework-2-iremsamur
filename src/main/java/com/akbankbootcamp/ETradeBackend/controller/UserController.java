@@ -23,6 +23,7 @@ public class UserController {
         this.userControllerContract = userControllerContract;
     }
 
+    @ExceptionHandler
     @PostMapping
     public ResponseEntity<RestResponse<UserDTO>> add(@RequestBody UserSaveRequestDTO userSaveRequest) {
         try {
@@ -33,6 +34,7 @@ public class UserController {
         }
 
     }
+    @ExceptionHandler
     @PutMapping("/{id}")
     public ResponseEntity<RestResponse<UserDTO>> update(@RequestBody UserSaveRequestDTO userSaveRequestDTO,@PathVariable Long id) {
         var userDTO = userControllerContract.update(userSaveRequestDTO,id);
