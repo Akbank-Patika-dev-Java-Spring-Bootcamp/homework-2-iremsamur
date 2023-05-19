@@ -1,5 +1,7 @@
 package com.akbankbootcamp.ETradeBackend.controller.contract;
 
+import com.akbankbootcamp.ETradeBackend.dto.comment.CommentByProductDTO;
+import com.akbankbootcamp.ETradeBackend.dto.comment.CommentByUserDTO;
 import com.akbankbootcamp.ETradeBackend.dto.comment.CommentDTO;
 import com.akbankbootcamp.ETradeBackend.dto.comment.CommentSaveRequestDTO;
 import com.akbankbootcamp.ETradeBackend.dto.product.ProductDTO;
@@ -16,8 +18,8 @@ public interface CommentControllerContract {
     CommentDTO getById(Long id);
 
     void delete(Long id);
-    List<CommentDTO> findAllByUserId(Long userId);
-    List<CommentDTO> findAllByProductId(Long productId);
+    List<CommentByUserDTO> findAllByUserId(Long userId);
+    List<CommentByProductDTO> findAllByProductId(Long productId);
     UserDTO findUserById(Long userId);
     ProductDTO findProductById(Long productId);
 }

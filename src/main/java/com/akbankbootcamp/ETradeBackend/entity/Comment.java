@@ -3,6 +3,7 @@ package com.akbankbootcamp.ETradeBackend.entity;
 import com.akbankbootcamp.ETradeBackend.enums.EnumStatus;
 import com.akbankbootcamp.ETradeBackend.general.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import lombok.Getter;
 import lombok.Setter;
 

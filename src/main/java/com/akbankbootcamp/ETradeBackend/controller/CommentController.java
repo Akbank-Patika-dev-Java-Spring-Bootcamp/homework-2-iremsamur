@@ -3,6 +3,8 @@ package com.akbankbootcamp.ETradeBackend.controller;
 import com.akbankbootcamp.ETradeBackend.controller.contract.CommentControllerContract;
 import com.akbankbootcamp.ETradeBackend.controller.contract.ProductControllerContract;
 import com.akbankbootcamp.ETradeBackend.controller.contract.UserControllerContract;
+import com.akbankbootcamp.ETradeBackend.dto.comment.CommentByProductDTO;
+import com.akbankbootcamp.ETradeBackend.dto.comment.CommentByUserDTO;
 import com.akbankbootcamp.ETradeBackend.dto.comment.CommentDTO;
 import com.akbankbootcamp.ETradeBackend.dto.comment.CommentSaveRequestDTO;
 import com.akbankbootcamp.ETradeBackend.general.RestResponse;
@@ -62,8 +64,9 @@ public class CommentController {
         var commentDTO = commentControllerContract.getById(id);
         return ResponseEntity.ok(RestResponse.of(commentDTO));
     }
+    //kullanıcıya göre o kullanıcının yaptığı yorumları getirir
     @GetMapping("/getByUser/{id}")
-    public ResponseEntity<RestResponse<List<CommentDTO>>> findByUserId(@PathVariable Long id) {
+    public ResponseEntity<RestResponse<List<CommentByUserDTO>>> findByUserId(@PathVariable Long id) {
         var commentDTO = commentControllerContract.findAllByUserId(id);
         var userDTO = commentControllerContract.findUserById(id);
         if(commentDTO != null){
@@ -73,8 +76,9 @@ public class CommentController {
                 "henüz bir yorum yapmamıştır."));
 
     }
+    //ürüne göre o ürüne yapılmış yorumları getirir
     @GetMapping("/getByProduct/{id}")
-    public ResponseEntity<RestResponse<List<CommentDTO>>> findByProductId(@PathVariable Long id) {
+    public ResponseEntity<RestResponse<List<CommentByProductDTO>>> findByProductId(@PathVariable Long id) {
         var commentDTO = commentControllerContract.findAllByProductId(id);
         var productDTO = commentControllerContract.findProductById(id);
         if(commentDTO!=null){

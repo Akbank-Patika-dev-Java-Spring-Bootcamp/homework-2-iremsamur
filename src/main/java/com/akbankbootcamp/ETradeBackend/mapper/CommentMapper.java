@@ -1,5 +1,7 @@
 package com.akbankbootcamp.ETradeBackend.mapper;
 
+import com.akbankbootcamp.ETradeBackend.dto.comment.CommentByProductDTO;
+import com.akbankbootcamp.ETradeBackend.dto.comment.CommentByUserDTO;
 import com.akbankbootcamp.ETradeBackend.dto.comment.CommentDTO;
 import com.akbankbootcamp.ETradeBackend.dto.comment.CommentSaveRequestDTO;
 import com.akbankbootcamp.ETradeBackend.dto.product.ProductDTO;
@@ -19,6 +21,9 @@ public interface CommentMapper {
     Comment convertToComment(CommentSaveRequestDTO commentSaveRequestDTO);
 
     CommentDTO convertToCommentDTO(Comment comment);
+    CommentByUserDTO convertToCommentByUserDTO(Comment comment);
+    CommentByProductDTO convertToCommentByProductDTO(Comment comment);
+    List<CommentByProductDTO> convertToCommentByProductListDTO(List<Comment> comment);
 
     List<CommentDTO> convertToCommentDTOList(List<Comment> commentList);
 

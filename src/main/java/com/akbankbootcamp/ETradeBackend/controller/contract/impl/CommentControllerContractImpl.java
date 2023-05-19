@@ -1,6 +1,8 @@
 package com.akbankbootcamp.ETradeBackend.controller.contract.impl;
 
 import com.akbankbootcamp.ETradeBackend.controller.contract.CommentControllerContract;
+import com.akbankbootcamp.ETradeBackend.dto.comment.CommentByProductDTO;
+import com.akbankbootcamp.ETradeBackend.dto.comment.CommentByUserDTO;
 import com.akbankbootcamp.ETradeBackend.dto.comment.CommentDTO;
 import com.akbankbootcamp.ETradeBackend.dto.comment.CommentSaveRequestDTO;
 import com.akbankbootcamp.ETradeBackend.dto.product.ProductDTO;
@@ -17,6 +19,7 @@ import com.akbankbootcamp.ETradeBackend.service.entityservice.UserEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -80,27 +83,51 @@ public class CommentControllerContractImpl implements CommentControllerContract 
     }
 
     @Override
-    public List<CommentDTO> findAllByUserId(Long userId) {
-        List<CommentDTO> commentDTO = null;
+    public List<CommentByUserDTO> findAllByUserId(Long userId) {
+        List<CommentByUserDTO> commentByUserListDTO = new ArrayList<CommentByUserDTO>();
         List<Comment> commentsByUser = commentEntityService.getRepository().findAllByUserId(userId);
         if(commentsByUser == null){
-            return commentDTO;
+            return commentByUserListDTO;
         }
         else{
-            return CommentMapper.INSTANCE.convertToCommentDTOList(commentsByUser);
+            for (Comment comment : commentsByUser) {
+                CommentByUserDTO commentUserDTO = new CommentByUserDTO();
+                commentUserDTO.setId(comment.getId());
+                commentUserDTO.setUserId(comment.getUser().getId());
+                commentUserDTO.setProductId(comment.getProduct().getId());
+                commentUserDTO.setComment(comment.getComment());
+                commentUserDTO.setStatus(comment.getStatus());
+                commentUserDTO.setCreatedAt(comment.getCreatedAt());
+                commentUserDTO.setUsername(comment.getUser().getUsername());
+                commentUserDTO.setName(comment.getUser().getName());
+                commentUserDTO.setSurname(comment.getUser().getSurname());
+                commentByUserListDTO.add(commentUserDTO);
+            }
+            return commentByUserListDTO;
         }
 
     }
 
     @Override
-    public List<CommentDTO> findAllByProductId(Long productId) {
-        List<CommentDTO> commentDTO = null;
+    public List<CommentByProductDTO> findAllByProductId(Long productId) {
+        List<CommentByProductDTO> commentByProductListDTO = new ArrayList<CommentByProductDTO>();
         List<Comment> commentsForProduct = commentEntityService.getRepository().findAllByProductId(productId);
         if(commentsForProduct == null){
-            return commentDTO;
+            return commentByProductListDTO;
         }
         else{
-            return CommentMapper.INSTANCE.convertToCommentDTOList(commentsForProduct);
+            for (Comment comment : commentsForProduct) {
+                CommentByProductDTO commentProductDTO = new CommentByProductDTO();
+                commentProductDTO.setId(comment.getId());
+                commentProductDTO.setUserId(comment.getUser().getId());
+                commentProductDTO.setProductId(comment.getProduct().getId());
+                commentProductDTO.setComment(comment.getComment());
+                commentProductDTO.setStatus(comment.getStatus());
+                commentProductDTO.setCreatedAt(comment.getCreatedAt());
+                commentProductDTO.setName(comment.getProduct().getName());
+                commentByProductListDTO.add(commentProductDTO);
+            }
+            return commentByProductListDTO;
         }
     }
 
